@@ -27,7 +27,7 @@ const addBookHandler = (request, h) => {
     response.code(400)
     return response
   }
-  if (!isTitleInserted) {
+  if (isTitleInserted) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal menambahkan buku. Mohon isi nama buku'
@@ -43,7 +43,7 @@ const addBookHandler = (request, h) => {
     response.code(400)
     return response
   }
-  if (isIdInserted && isTitleInserted && isReadPageCorrect) {
+  if (isIdInserted && !isTitleInserted && isReadPageCorrect) {
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil ditambahkan',
