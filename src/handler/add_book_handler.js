@@ -13,9 +13,8 @@ const addBookHandler = (request, h) => {
     name, year, author, summary, publisher, pageCount, readPage, reading, id, finished, insertedAt, updatedAt
   }
 
-  books.push(newBook)
-
-  const isIdInserted = books.filter((books) => books.id === id).length > 0
+  const isIdInserted = id.length > 0
+  const isTitleInserted = name !== undefined
   const isReadPageCorrect = readPage <= pageCount
 
   if (!isIdInserted) {
@@ -26,7 +25,7 @@ const addBookHandler = (request, h) => {
     response.code(400)
     return response
   }
-  if (newBook.name === undefined) {
+  if (!isTitleInserted) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal menambahkan buku. Mohon isi nama buku'
@@ -42,7 +41,8 @@ const addBookHandler = (request, h) => {
     response.code(400)
     return response
   }
-  if (isIdInserted && isReadPageCorrect) {
+  if (isIdInserted && isTitleInserted && isReadPageCorrect) {
+    books.push(newBook)
     const response = h.response({
       status: 'success',
       message: 'Buku berhasil ditambahkan',
